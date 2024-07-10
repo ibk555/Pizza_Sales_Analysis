@@ -5,68 +5,68 @@ where order_id or pizza_id is null;
 #No null values for columns order_id and Pizza_id
 
 SELECT * 
-FROM`data model - pizza sales`
+FROM pizza_sales_2015							
 where quantity or order_date is null;
 # No null values for column Quantity and Order_date
 
 SELECT * 
-FROM`data model - pizza sales`
+FROM pizza_sales_2015
 where order_date or unit_price is null;
 # No null values for columns Order_date and unit_price
 
 SELECT * 
-FROM`data model - pizza sales`
+FROM pizza_sales_2015
 where total_price or pizza_size is null;
 # No null values for columns total_price and pizza_size
 
 SELECT * 
-FROM`data model - pizza sales`
+FROM pizza_sales_2015
 where pizza_category or pizza_ingredients or pizza_name is null;
 #No null values for columns pizza_category, pizza_ingredients and pizza_name
 
 #ANALYSIS
 # Total Sales and Orders
 SELECT sum(quantity) as Quantity, round(sum(total_price)) as Sales
-FROM `data model - pizza sales`;
+FROM pizza_sales_2015
 
 # Pizza Size Sales and Orders
 SELECT pizza_size, sum(quantity) as Quantity, round(sum(total_price)) as Sales
-FROM `data model - pizza sales`
+FROM pizza_sales_2015
 GROUP BY pizza_size
 ORDER BY Sales DESC;
    # Large pizza size sold more than others.
    
 # Most Sold Pizza_Category
 SELECT pizza_category, sum(quantity) as Quantity, round(sum(total_price)) as Sales
-FROM `data model - pizza sales`
+FROM pizza_sales_2015
 GROUP BY pizza_category
 ORDER BY Sales DESC;
     #Classic pizza_category sold more.
     
 # Top 10 Selling Pizzas
 SELECT pizza_name ,round(sum(total_price)) as Sales
-FROM `data model - pizza sales`
+FROM pizza_sales_2015
 GROUP BY pizza_name
 ORDER BY Sales DESC
 LIMIT 10;
 
 # Top 10 selling Pizza_Id
 SELECT pizza_id ,round(sum(total_price)) as Sales
-FROM `data model - pizza sales`
+FROM pizza_sales_2015
 GROUP BY pizza_id
 ORDER BY Sales DESC
 LIMIT 10;
 
 #Day with highest Orders and Sales
 SELECT Dayname(order_date) as Days ,sum(quantity) as Quantity, round(sum(total_price)) as Sales
-FROM `data model - pizza sales`
+FROM pizza_sales_2015
 GROUP BY Days
 ORDER BY Sales DESC;
    # Friday got more Sales
    
 #month with highest Sales and Orders
 SELECT monthname(order_date) as Months ,sum(quantity) as Quantity, round(sum(total_price)) as Sales
-FROM `data model - pizza sales`
+FROM pizza_sales_2015
 GROUP BY Months
 ORDER BY Sales DESC;
     #July
@@ -74,7 +74,7 @@ ORDER BY Sales DESC;
 #Monthly Sales Difference and %monthly increase
 WITH monthly_sales as
       (SELECT month(order_date) as months, round(sum(total_price))as Sales
-       FROM `data model - pizza sales`
+       FROM pizza_sales_2015
        GROUP BY months)
  SELECT *,
     Lag(Sales) OVER(ORDER BY months) AS Previous_Month_Sales,
@@ -87,7 +87,7 @@ WITH monthly_sales as
 WITH monthly_sales AS
      (SELECT month(order_date) as months,
        round(sum(total_price))as Sales
-       FROM `data model - pizza sales`
+       FROM pizza_sales_2015
        GROUP BY months)
 SELECT *
 FROM monthly_sales m
@@ -100,7 +100,7 @@ JOIN(SELECT avg(Sales) AS Avg_Sales
 WITH monthly_sales AS
      (SELECT month(order_date) as months,
        round(sum(total_price))as Sales
-       FROM `data model - pizza sales`
+       FROM pizza_sales_2015
        GROUP BY months)
        
        Select months, sales,
@@ -119,7 +119,7 @@ WITH Seasons As
         WHEN month(order_date) in (6, 7, 8) THEN  'Summer'
         WHEN month(order_date) in (9, 10, 11) THEN 'Autumn'
 	    END As 'Season'
-        FROM `data model - pizza sales`)
+        FROM pizza_sales_2015
  SELECT Season, round(sum(total_price)) AS Sales, sum(quantity) As Quantity
  FROM Seasons
  GROUP BY Season
