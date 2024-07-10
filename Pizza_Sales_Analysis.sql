@@ -1,6 +1,6 @@
 #checking Columns for null values
 SELECT * 
-FROM`data model - pizza sales`
+FROM pizza_sales_2015
 where order_id or pizza_id is null;
 #No null values for columns order_id and Pizza_id
 
